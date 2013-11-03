@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -14,7 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 
 
 @SuppressWarnings("serial")
-public class SamplingDistGUI extends JPanel {
+public class SamplingDistGUI extends JPanel implements ActionListener {
 	
 	private JButton computeButton;
 	private JTextField NtextField;
@@ -110,5 +111,18 @@ public class SamplingDistGUI extends JPanel {
 		UppertextField.setText("");
 		LowertextField.setText("");
 		NtextField.setText("");
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0) {
+			try {
+				
+			} catch(NumberFormatException nfe) {
+				displayError("Wrong Input Values");
+			}
+		}
+		else displayError("Inputs should be > 0");
 	}
 }
