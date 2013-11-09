@@ -53,23 +53,23 @@ public class SamplingComputation {
 		variance /= n;
 	}
 	
-	public void popUniformDist(int n) {
-		values=new int[n];
-		int value = (int)(lower + (Math.random() * (upper - lower+1))); 
+	public void popUniformDist(int N) {
+		values=new int[N];
+		int value = (int)(lower + (Math.random() * (upper - lower+1))); //upper and lower bounds are for values of members of the population, right?
 		
-		for(int i = 0; i < n; i++) {
+		for(int i = 0; i < N; i++) {
 			values[i] = value;
 		}
 	}
 	
-	public void popRandDist(int n) {
+	public void popRandDist(int N) {
 		int value;
-		values=new int[n];
-		for(int i = 0; i < n; i++) {
+		values=new int[N];
+		for(int i = 0; i < N; i++) {
 			value = (int)(lower + (Math.random() * (upper - lower+1)));
 			values[i] = value;
 		}
-		for(int i=0;i<n;i++)
+		for(int i=0;i<N;i++)
 		{
 			System.out.println(values[i]);
 		}

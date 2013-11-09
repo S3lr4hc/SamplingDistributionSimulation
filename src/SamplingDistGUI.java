@@ -121,7 +121,7 @@ public class SamplingDistGUI extends JPanel {
 	}
 	private void generateSampleDistribution()
 	{
-		int n=Integer.parseInt(NtextField.getText());
+		int N=Integer.parseInt(NtextField.getText());
 		int lowerBound=Integer.parseInt(LowertextField.getText());
 		int upperBound=Integer.parseInt(UppertextField.getText());
 		SamplingComputation calculator=new SamplingComputation();
@@ -130,7 +130,7 @@ public class SamplingDistGUI extends JPanel {
 		switch(comboBox.getSelectedItem().toString())
 		{
 		case "Uniform":
-			calculator.popUniformDist(n);
+			calculator.popUniformDist(N);
 			break;
 		case "Skewed":
 			break;
@@ -139,7 +139,7 @@ public class SamplingDistGUI extends JPanel {
 		case "Normal":	
 			break;
 		case "Random":
-			calculator.popRandDist(n);
+			calculator.popRandDist(N);
 			break;
 		default:
 			break;
