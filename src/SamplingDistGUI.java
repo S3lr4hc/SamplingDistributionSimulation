@@ -15,13 +15,13 @@ import javax.swing.DefaultComboBoxModel;
 
 
 @SuppressWarnings("serial")
-public class SamplingDistGUI extends JPanel implements ActionListener {
+public class SamplingDistGUI extends JPanel {
 	
 	private JButton computeButton;
 	private JTextField NtextField;
 	private JTextField UppertextField;
 	private JTextField LowertextField;
-	
+	private JComboBox comboBox;
 	//Returns N from Input
 	public int getNInput() {
 		return Integer.parseInt(NtextField.getText());
@@ -67,6 +67,20 @@ public class SamplingDistGUI extends JPanel implements ActionListener {
 		computeButton = new JButton("Generate Graph");
 		computeButton.setFont(new Font("Letter Gothic Std", Font.BOLD, 19));
 		computeButton.setBounds(114, 330, 436, 32);
+		addListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0) {
+			try {
+				generateSampleDistribution();
+			} catch(NumberFormatException nfe) {
+				displayError("Invalid Input Values");
+			}
+		}
+		else displayError("Inputs should be > 0");
+	}
+		});
 		add(computeButton);
 		
 		LowertextField = new JTextField();
@@ -90,8 +104,8 @@ public class SamplingDistGUI extends JPanel implements ActionListener {
 		NtextField.setBounds(218, 216, 67, 45);
 		add(NtextField);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Uniform", "Skewed", "Bimodal", "Normal", "Random "}));
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Uniform", "Skewed", "Bimodal", "Normal", "Random"}));
 		comboBox.setBounds(395, 90, 158, 20);
 		add(comboBox);
 
@@ -105,7 +119,43 @@ public class SamplingDistGUI extends JPanel implements ActionListener {
 	public void displayError(String message){
 		JOptionPane.showMessageDialog(this, message);
 	}
+	private void generateSampleDistribution()
+	{
+		int n=Integer.parseInt(NtextField.getText());
+		int lowerBound=Integer.parseInt(LowertextField.getText());
+		int upperBound=Integer.parseInt(UppertextField.getText());
+		SamplingComputation calculator=new SamplingComputation();
+		//System.out.println(lowerBound+", "+upperBound);
+		calculator.setX(lowerBound, upperBound);
+		switch(comboBox.getSelectedItem().toString())
+		{
+		case "Uniform":
+			calculator.popUniformDist(n);
+			break;
+		case "Skewed":
+			break;
+		case "Bimodal":
+			break;
+		case "Normal":	
+			break;
+		case "Random":
+			calculator.popRandDist(n);
+			break;
+		default:
+			break;
+		}
+		displayValues(calculator.getValues());
+	}
 	
+	
+	public void displayValues(int[] values)
+	{
+		//Display values in table/graph
+		for(int i :values)
+		{
+			System.out.println(i);
+		}
+	}
 	//Clear the fields
 	public void clearAll(){
 		UppertextField.setText("");
@@ -113,16 +163,5 @@ public class SamplingDistGUI extends JPanel implements ActionListener {
 		NtextField.setText("");
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0) {
-			try {
-				
-			} catch(NumberFormatException nfe) {
-				displayError("Wrong Input Values");
-			}
-		}
-		else displayError("Inputs should be > 0");
-	}
+	
 }

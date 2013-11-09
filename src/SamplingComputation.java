@@ -4,6 +4,8 @@ public class SamplingComputation {
 	
 	private double mean;
 	private double variance;
+	private int lower;
+	private int upper;
 	private int[] x;
 	private int[] values;
 	
@@ -20,6 +22,8 @@ public class SamplingComputation {
 	}
 	
 	public void setX(int lowerBound, int upperBound) {
+		upper=upperBound;
+		lower=lowerBound;
 		int j = lowerBound;
 		x = new int[upperBound - lowerBound + 1];
 		
@@ -50,19 +54,24 @@ public class SamplingComputation {
 	}
 	
 	public void popUniformDist(int n) {
-		int value = (int)(Math.random() * n) + 1;
+		values=new int[n];
+		int value = (int)(lower + (Math.random() * (upper - lower+1))); 
 		
-		for(int i = 0; i < x.length; i++) {
+		for(int i = 0; i < n; i++) {
 			values[i] = value;
 		}
 	}
 	
 	public void popRandDist(int n) {
 		int value;
-		
-		for(int i = 0; i < x.length; i++) {
-			value = (int)(Math.random() * n) + 1;
+		values=new int[n];
+		for(int i = 0; i < n; i++) {
+			value = (int)(lower + (Math.random() * (upper - lower+1)));
 			values[i] = value;
+		}
+		for(int i=0;i<n;i++)
+		{
+			System.out.println(values[i]);
 		}
 	}
 }
