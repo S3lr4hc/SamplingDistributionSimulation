@@ -25,9 +25,9 @@ public class Main extends JFrame {
 	{
 		this.setTitle("Sampling Distribution Simulation");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0,0,640,450);
+		setBounds(0,0,800,600);
 		this.setLocationRelativeTo(null);		
-		this.setResizable(false);
+		this.setResizable(true);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
