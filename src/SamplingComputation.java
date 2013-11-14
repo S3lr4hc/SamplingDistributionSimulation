@@ -18,7 +18,13 @@ public class SamplingComputation {
 	
 	public SamplingComputation()
 	{
-		tableModel=new DefaultTableModel();
+		tableModel=new DefaultTableModel(
+				new Object[][] {
+						{"f(x)"}
+					},
+					new String[] {
+						"x"
+					});
 	}
 	public double getMean() {
 		return mean;
@@ -79,6 +85,8 @@ public class SamplingComputation {
 			tableModel.addColumn(i);
 			values[i-lower] = value;
 			tempDataset.addValue(value, "Frequency", Integer.toString(i));
+			//tableModel.setValueAt(i, 0,i-lower+1);
+			tableModel.setValueAt(value, 0, i-lower+1);
 		}
 		dataset=tempDataset;
 	}
@@ -102,6 +110,8 @@ public class SamplingComputation {
 			tableModel.addColumn(i);
 			value=values[i-lower];
 			tempDataset.addValue(value, "Frequency", Integer.toString(i));
+			//tableModel.setValueAt(i, 0,i-lower+1);
+			tableModel.setValueAt(value, 0, i-lower+1);
 		}
 		dataset=tempDataset;
 		

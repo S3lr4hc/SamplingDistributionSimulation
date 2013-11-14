@@ -2,6 +2,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -59,7 +60,7 @@ public class SamplingDistGUI extends JPanel {
 	public SamplingDistGUI() 
 	{
 		setBackground(Color.WHITE);
-		this.setSize(800 , 600);
+		this.setSize(1024 , 768);
 		setLayout(null);
 		
 		JLabel lblTitle = new JLabel("Sampling Distribution Simulation\r\n");
@@ -84,7 +85,7 @@ public class SamplingDistGUI extends JPanel {
 		
 		pnlChartSimulation = new JPanel();
 		pnlChartSimulation.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Graph and Simulation", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnlChartSimulation.setBounds(10, 319, 1262, 330);
+		pnlChartSimulation.setBounds(10, 319, 1004, 395);
 		add(pnlChartSimulation);
 		pnlChartSimulation.setLayout(null);
 		
@@ -141,13 +142,30 @@ public class SamplingDistGUI extends JPanel {
 		
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Uniform", "Skewed", "Bimodal", "Normal", "Random"}));
-		comboBox.setBounds(395, 90, 158, 20);
+		comboBox.setBounds(311, 65, 158, 20);
 		add(comboBox);
 		
 		table = new JTable();
-		table.setBounds(311, 122, 427, 122);
-		table.setVisible(true);
-		add(table);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"f(x)"}
+				
+			},
+			new String[] {
+				"x"
+			}
+		));
+		//table.setBounds(311, 122, 427, 122);
+		
+		JScrollPane spTable = new JScrollPane(table);
+		spTable.setBounds(311, 122, 615, 76);
+		//pnlSecondTitleBorder.add(spTable);
+		//spTable.setViewportView(table);
+		//spTable.setVisible(true);
+		table.setShowGrid(false);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		add(spTable);
+		//add(table);
 
 	}
 	//Just for the action listener of the button to compute
@@ -215,7 +233,7 @@ public class SamplingDistGUI extends JPanel {
 	{
 		//creates bar chart
 		  chart = ChartFactory.createBarChart(
-		  "Population Graph", "X","f(X)" , dataset,
+		  "Population Distribution", "X","f(X)" , dataset,
 		  PlotOrientation.VERTICAL, false, true, false);
 		  
 		  //Customization of bar graph
