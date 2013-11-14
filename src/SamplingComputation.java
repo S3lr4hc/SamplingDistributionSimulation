@@ -100,10 +100,10 @@ public class SamplingComputation {
 			value = (int)(lower + (Math.random() * (upper - lower+1)));
 			sampleValues[i] = value;
 		}
-		for(int i=0;i<N;i++)
+		/*for(int i=0;i<N;i++)
 		{
 			System.out.println(sampleValues[i]);
-		}
+		}*/
 		getPopDist(sampleValues,upper-lower+1);
 		for(int i=lower;i<=upper;i++)
 		{

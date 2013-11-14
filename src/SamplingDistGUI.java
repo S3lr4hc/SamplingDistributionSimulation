@@ -36,10 +36,13 @@ public class SamplingDistGUI extends JPanel {
 	private JTextField LowertextField;
 	private JComboBox comboBox;
 	private JFreeChart chart;
+	private JFreeChart sampleChart;
 	private JPanel pnlChartSimulation;
 	private ChartPanel chartPanel;
+	private ChartPanel sampleChartPanel;
 	private DefaultTableModel tableModel;
 	private JTable table;
+	private JTextField nTextField;
 	
 	//Returns N from Input
 	public int getNInput() {
@@ -102,14 +105,14 @@ public class SamplingDistGUI extends JPanel {
 		
 		computeButton = new JButton("Generate Graph");
 		computeButton.setFont(new Font("Letter Gothic Std", Font.BOLD, 19));
-		computeButton.setBounds(25, 276, 260, 32);
+		computeButton.setBounds(308, 221, 260, 32);
 		addListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0) {
 			try {
-				generateSampleDistribution();
+				generatePopulationDistribution();
 			} catch(NumberFormatException nfe) {
 				displayError("Invalid Input Values");
 			}
@@ -119,6 +122,8 @@ public class SamplingDistGUI extends JPanel {
 		});
 		add(computeButton);
 		
+		chartPanel=new ChartPanel(chart);
+		sampleChartPanel= new ChartPanel(sampleChart);
 		LowertextField = new JTextField();
 		LowertextField.setFont(new Font("Dialog", Font.PLAIN, 18));
 		LowertextField.setColumns(10);
@@ -165,6 +170,18 @@ public class SamplingDistGUI extends JPanel {
 		table.setShowGrid(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		add(spTable);
+		
+		JLabel lblSampleN = new JLabel("Sample n:");
+		lblSampleN.setFont(new Font("Dialog", Font.BOLD, 25));
+		lblSampleN.setBounds(25, 276, 171, 32);
+		add(lblSampleN);
+		
+		nTextField = new JTextField();
+		nTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
+		nTextField.setColumns(10);
+		nTextField.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		nTextField.setBounds(218, 274, 67, 45);
+		add(nTextField);
 		//add(table);
 
 	}
@@ -177,7 +194,7 @@ public class SamplingDistGUI extends JPanel {
 	public void displayError(String message){
 		JOptionPane.showMessageDialog(this, message);
 	}
-	private void generateSampleDistribution()
+	private void generatePopulationDistribution()
 	{
 		int N=Integer.parseInt(NtextField.getText());
 		int lowerBound=Integer.parseInt(LowertextField.getText());
@@ -204,11 +221,37 @@ public class SamplingDistGUI extends JPanel {
 		default:
 			break;
 		}
-		displayValues(calculator.getValues());
-		createChart(calculator.getDataset());
+		//displayValues(calculator.getValues());
+		createChart(calculator.getDataset(),"Population Distribution", chart, chartPanel, 12, 18);
+		
 		setTableModel(calculator.getTableModel());
 	}
-	
+	private void generateSampleDistribution()
+	{
+		int N=Integer.parseInt(NtextField.getText());
+		int n=Integer.parseInt(nTextField.getText());
+		int lowerBound=Integer.parseInt(LowertextField.getText());
+		int upperBound=Integer.parseInt(UppertextField.getText());
+		SamplingComputation calculator=new SamplingComputation();
+		calculator.setX(lowerBound, upperBound);
+		
+		
+		
+		
+		createChart(calculator.getDataset(),"Population Distribution", sampleChart, sampleChartPanel, 615, 271);
+		setTableModel(calculator.getTableModel());
+	}
+	public void updateChart(JFreeChart chart, ChartPanel chartPanel, int x, int y)
+	{
+		  if(chartPanel!=null)
+	    	  pnlChartSimulation.remove(chartPanel);
+
+		  //chartPanel = new ChartPanel(chart);
+		  chartPanel.setChart(chart);
+		  chartPanel.setBounds(x, y, 600, 250);
+		  pnlChartSimulation.add(chartPanel);
+		  repaint();
+	}
 	public void setTableModel(DefaultTableModel tm)
 	{
 		this.tableModel=tm;
@@ -229,11 +272,11 @@ public class SamplingDistGUI extends JPanel {
 		LowertextField.setText("");
 		NtextField.setText("");
 	}
-	public void createChart(CategoryDataset dataset) 
+	public void createChart(CategoryDataset dataset, String title,JFreeChart chart,ChartPanel chartPanel, int x, int y) 
 	{
 		//creates bar chart
 		  chart = ChartFactory.createBarChart(
-		  "Population Distribution", "X","f(X)" , dataset,
+		  title, "X","f(X)" , dataset,
 		  PlotOrientation.VERTICAL, false, true, false);
 		  
 		  //Customization of bar graph
@@ -251,13 +294,7 @@ public class SamplingDistGUI extends JPanel {
 	      renderer.setMaximumBarWidth(0.2);
 	      renderer.setBarPainter(new StandardBarPainter());
 	      renderer.setSeriesPaint(0, Color.green);
-	      
-	      if(chartPanel!=null)
-	    	  pnlChartSimulation.remove(chartPanel);
-
-		  chartPanel = new ChartPanel(chart);
-		  chartPanel.setBounds(12, 18, 600, 250);
-		  pnlChartSimulation.add(chartPanel);
-		  repaint();
+	      updateChart(chart, chartPanel, x, y);
+	    
 	}
 }
