@@ -199,6 +199,9 @@ public class SamplingDistGUI extends JPanel {
 		int N=Integer.parseInt(NtextField.getText());
 		int lowerBound=Integer.parseInt(LowertextField.getText());
 		int upperBound=Integer.parseInt(UppertextField.getText());
+		int mid = (lowerBound + upperBound) / 2;
+		int upperRange = upperBound - mid + 1;
+		int lowerRange = mid - lowerBound + 1;
 		SamplingComputation calculator=new SamplingComputation();
 		//System.out.println(lowerBound+", "+upperBound);
 		calculator.setX(lowerBound, upperBound);
@@ -210,10 +213,13 @@ public class SamplingDistGUI extends JPanel {
 			else displayError("Uniform distribution not possible for these values");
 			break;
 		case "Skewed":
+			calculator.popSkewedDist(N);
 			break;
 		case "Bimodal":
+			calculator.popBimodalDist(N);
 			break;
-		case "Normal":	
+		case "Normal":
+			calculator.popNormalDist(N);
 			break;
 		case "Random":
 			calculator.popRandDist(N);
