@@ -110,7 +110,7 @@ public class SamplingDistGUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0) {
+		if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0 && Integer.parseInt(nTextField.getText()) > 0) {
 			try {
 				generatePopulationDistribution();
 			} catch(NumberFormatException nfe) {
