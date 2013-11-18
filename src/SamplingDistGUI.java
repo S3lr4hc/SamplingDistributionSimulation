@@ -1,6 +1,8 @@
 import javax.swing.JPanel;
 import java.awt.Color;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -10,6 +12,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
@@ -43,6 +47,9 @@ public class SamplingDistGUI extends JPanel {
 	private DefaultTableModel tableModel;
 	private JTable table;
 	private JTextField nTextField;
+	private JSlider sldPopN;
+	private JSlider sldSampleN;
+	
 	
 	//Returns N from Input
 	public int getNInput() {
@@ -78,12 +85,12 @@ public class SamplingDistGUI extends JPanel {
 		
 		JLabel lblUpperBound = new JLabel("Upper Bound:");
 		lblUpperBound.setFont(new Font("Dialog", Font.BOLD, 25));
-		lblUpperBound.setBounds(25, 146, 171, 32);
+		lblUpperBound.setBounds(25, 121, 171, 32);
 		add(lblUpperBound);
 		
 		JLabel lblPopN = new JLabel("Population N:");
 		lblPopN.setFont(new Font("Tekton Pro Cond", Font.BOLD, 25));
-		lblPopN.setBounds(25, 219, 171, 32);
+		lblPopN.setBounds(25, 164, 171, 32);
 		add(lblPopN);
 		
 		pnlChartSimulation = new JPanel();
@@ -135,14 +142,14 @@ public class SamplingDistGUI extends JPanel {
 		UppertextField.setFont(new Font("Dialog", Font.PLAIN, 18));
 		UppertextField.setColumns(10);
 		UppertextField.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		UppertextField.setBounds(218, 143, 67, 45);
+		UppertextField.setBounds(218, 118, 67, 45);
 		add(UppertextField);
 		
 		NtextField = new JTextField();
 		NtextField.setFont(new Font("Letter Gothic Std", Font.PLAIN, 18));
 		NtextField.setColumns(10);
 		NtextField.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		NtextField.setBounds(218, 216, 67, 45);
+		NtextField.setBounds(218, 172, 67, 45);
 		add(NtextField);
 		
 		comboBox = new JComboBox();
@@ -173,16 +180,45 @@ public class SamplingDistGUI extends JPanel {
 		
 		JLabel lblSampleN = new JLabel("Sample n:");
 		lblSampleN.setFont(new Font("Dialog", Font.BOLD, 25));
-		lblSampleN.setBounds(25, 276, 171, 32);
+		lblSampleN.setBounds(25, 235, 171, 32);
 		add(lblSampleN);
 		
 		nTextField = new JTextField();
 		nTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
 		nTextField.setColumns(10);
 		nTextField.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		nTextField.setBounds(218, 274, 67, 45);
+		nTextField.setBounds(218, 232, 67, 45);
 		add(nTextField);
+		
+		sldPopN = new JSlider();
+		sldPopN.setBounds(10, 201, 200, 23);
+		add(sldPopN);
+		
+
+		
+		sldSampleN = new JSlider();
+		sldSampleN.setBounds(10, 272, 200, 23);
+		add(sldSampleN);
 		//add(table);
+		
+		//sldPopN.addChangeListener(l)
+		sldPopN.addChangeListener(new PopNSliderListener());
+		sldSampleN.addChangeListener(new SampleNSliderListener());
+		NtextField.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				sldPopN.setValue(Integer.parseInt(NtextField.getText()));
+			}});
+		nTextField.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				sldSampleN.setValue(Integer.parseInt(nTextField.getText()));
+			}});
+		
 
 	}
 	//Just for the action listener of the button to compute
@@ -302,5 +338,42 @@ public class SamplingDistGUI extends JPanel {
 	      renderer.setSeriesPaint(0, Color.green);
 	      updateChart(chart, chartPanel, x, y);
 	    
+	}
+	public class PopNSliderListener implements ChangeListener
+	{
+		public void stateChanged(ChangeEvent arg0) 
+		{
+			int popN=sldPopN.getValue();
+			NtextField.setText(Integer.toString(popN));
+			sldSampleN.setMaximum(popN);
+			if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0 && Integer.parseInt(nTextField.getText()) > 0) {
+				try {
+					generatePopulationDistribution();
+				} catch(NumberFormatException nfe) {
+					displayError("Invalid Input Values");
+				}
+			}
+			else displayError("Inputs should be > 0");
+		}
+		
+	}
+	public class SampleNSliderListener implements ChangeListener
+	{
+
+		@Override
+		public void stateChanged(ChangeEvent arg0) {
+			// TODO Auto-generated method stub
+			int sampleN=sldSampleN.getValue();
+			nTextField.setText(Integer.toString(sampleN));
+			if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0 && Integer.parseInt(nTextField.getText()) > 0) {
+				try {
+					generatePopulationDistribution();
+				} catch(NumberFormatException nfe) {
+					displayError("Invalid Input Values");
+				}
+			}
+			else displayError("Inputs should be > 0");
+		}
+		
 	}
 }
