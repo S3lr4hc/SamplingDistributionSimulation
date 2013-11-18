@@ -120,6 +120,7 @@ public class SamplingDistGUI extends JPanel {
 		if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0 && Integer.parseInt(nTextField.getText()) > 0) {
 			try {
 				generatePopulationDistribution();
+				generateSampleDistribution();
 			} catch(NumberFormatException nfe) {
 				displayError("Invalid Input Values");
 			}
@@ -280,7 +281,7 @@ public class SamplingDistGUI extends JPanel {
 		
 		
 		
-		createChart(calculator.getDataset(),"Population Distribution", sampleChart, sampleChartPanel, 615, 271);
+		createChart(calculator.getDataset(),"Sample Distribution", sampleChart, sampleChartPanel, 515, 18);
 		setTableModel(calculator.getTableModel());
 	}
 	public void updateChart(JFreeChart chart, ChartPanel chartPanel, int x, int y)
@@ -290,7 +291,7 @@ public class SamplingDistGUI extends JPanel {
 
 		  //chartPanel = new ChartPanel(chart);
 		  chartPanel.setChart(chart);
-		  chartPanel.setBounds(x, y, 600, 250);
+		  chartPanel.setBounds(x, y, 500, 208);
 		  pnlChartSimulation.add(chartPanel);
 		  repaint();
 	}
@@ -349,6 +350,7 @@ public class SamplingDistGUI extends JPanel {
 			if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0 && Integer.parseInt(nTextField.getText()) > 0) {
 				try {
 					generatePopulationDistribution();
+					generateSampleDistribution();
 				} catch(NumberFormatException nfe) {
 					displayError("Invalid Input Values");
 				}
