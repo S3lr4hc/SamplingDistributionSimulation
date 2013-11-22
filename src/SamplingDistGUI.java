@@ -285,7 +285,7 @@ public class SamplingDistGUI extends JPanel {
 		
 		
 		createChart(calculator.getDataset(),"Sample Distribution", sampleChart, sampleChartPanel, 515, 18);
-		setTableModel(calculator.getTableModel());
+		//setTableModel(calculator.getTableModel());
 	}
 	public void updateChart(JFreeChart chart, ChartPanel chartPanel, int x, int y)
 	{
