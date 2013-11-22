@@ -5,15 +5,27 @@ public class Test {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Random rand = new Random();
-		int nVal, fVal = 25, counter = 0;
-		do{
-			double val = rand.nextGaussian()*4+5;
-			nVal = (int) Math.round(val);
-			counter += nVal;
-			System.out.println(nVal);
-		}while(fVal > counter);
-		System.out.println("Counter: " + counter);
+	public static void main(String args[]) { 
+		Random r = new Random(); 
+		double val; 
+		double sum = 0; 
+		int bell[] = new int[10]; 
+		for(int i=0; i<100; i++) { 
+			val = r.nextGaussian(); 
+			sum += val; 
+			double t = -2; 
+			for(int x=0; x<10; x++, t += 0.5) 
+				if(val < t) { 
+					bell[x]++; 
+					break; 
+				} 
+		} 
+		System.out.println("Average of values: " + (sum/100)); 
+		// display bell curve, sideways 
+		for(int i=0; i<10; i++) { 
+			for(int x=bell[i]; x>0; x--) 
+				System.out.print("*"); 
+				System.out.println(); 
+		}
 	}
 }
