@@ -268,6 +268,7 @@ public class SamplingDistGUI extends JPanel {
 		createChart(calculator.getDataset(),"Population Distribution", chart, chartPanel, 12, 18);
 		
 		setTableModel(calculator.getTableModel());
+		table.repaint();
 	}
 	private void generateSampleDistribution()
 	{
