@@ -43,6 +43,7 @@ public class SamplingDistGUI extends JPanel {
 	private DefaultTableModel tableModel;
 	private JTable table;
 	private JTextField nTextField;
+	private SamplingComputation calculator;
 	
 	//Returns N from Input
 	public int getNInput() {
@@ -113,6 +114,7 @@ public class SamplingDistGUI extends JPanel {
 		if(Integer.parseInt(UppertextField.getText()) > 0 && Integer.parseInt(LowertextField.getText()) > 0 && Integer.parseInt(NtextField.getText()) > 0) {
 			try {
 				generatePopulationDistribution();
+				generateSampleDistribution();
 			} catch(NumberFormatException nfe) {
 				displayError("Invalid Input Values");
 			}
@@ -199,7 +201,7 @@ public class SamplingDistGUI extends JPanel {
 		int N=Integer.parseInt(NtextField.getText());
 		int lowerBound=Integer.parseInt(LowertextField.getText());
 		int upperBound=Integer.parseInt(UppertextField.getText());
-		SamplingComputation calculator=new SamplingComputation();
+		calculator=new SamplingComputation();
 		//System.out.println(lowerBound+", "+upperBound);
 		calculator.setX(lowerBound, upperBound);
 		switch(comboBox.getSelectedItem().toString())
@@ -225,6 +227,7 @@ public class SamplingDistGUI extends JPanel {
 		createChart(calculator.getDataset(),"Population Distribution", chart, chartPanel, 12, 18);
 		
 		setTableModel(calculator.getTableModel());
+		
 	}
 	private void generateSampleDistribution()
 	{
@@ -232,13 +235,14 @@ public class SamplingDistGUI extends JPanel {
 		int n=Integer.parseInt(nTextField.getText());
 		int lowerBound=Integer.parseInt(LowertextField.getText());
 		int upperBound=Integer.parseInt(UppertextField.getText());
-		SamplingComputation calculator=new SamplingComputation();
+		
 		calculator.setX(lowerBound, upperBound);
+		//if(N==0)
+		//displayError("Populatio is empty!");
+		calculator.generateSampleValues(n);
 		
 		
-		
-		
-		createChart(calculator.getDataset(),"Population Distribution", sampleChart, sampleChartPanel, 615, 271);
+		createChart(calculator.getSampleDataset(),"Sample Distribution", sampleChart, sampleChartPanel, 615, 18);
 		setTableModel(calculator.getTableModel());
 	}
 	public void updateChart(JFreeChart chart, ChartPanel chartPanel, int x, int y)
