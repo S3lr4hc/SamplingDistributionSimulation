@@ -256,7 +256,9 @@ public class SamplingDistGUI extends JPanel {
 			calculator.popBimodalDist(N);
 			break;
 		case "Normal":
-			calculator.popNormalDist(N);
+			if((lowerBound + upperBound) %2==0 && N%2==1)
+				displayError("Normal distribution not possible for these values");
+			else calculator.popNormalDist(N);
 			break;
 		case "Random":
 			calculator.popRandDist(N);
