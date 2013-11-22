@@ -414,7 +414,7 @@ public class SamplingComputation {
 	
 	public void popSkewedDist(int N)
 	{
-		DefaultCategoryDataset tempDataset=new DefaultCategoryDataset();
+		/*DefaultCategoryDataset tempDataset=new DefaultCategoryDataset();
 		int mid = (lower + upper)/2;
 		int lmid = (lower + mid)/2;
 		int value = N/2;
@@ -445,6 +445,47 @@ public class SamplingComputation {
 			value/=3;
 			count+=value;
 		}
+		dataset=tempDataset;*/
+		values = new int[upper-lower+1];
+		DefaultCategoryDataset tempDataset=new DefaultCategoryDataset();
+		int mid = (lower + upper)/2;
+		int umid = (upper + mid)/2;
+		int value = N/(upper-lower+1);
+		int count = 0;
+		int a = 0;
+		int x = 0;
+		System.out.println("value: " + value);
+		for(int y = lower; y < mid -1; y++){
+			a++;
+		}
+		System.out.println("a: " + a);
+		x = (a*(a+1)/2);
+		System.out.println("x: "+ x);
+		/*for(int b = 0; b < upper-lower+1; b++) {
+			values[b] = value;
+		}*/
+		for(int i = lower; i < umid; i++)
+		{
+			value = i-lower+1;
+			count += value;
+			tableModel.addColumn(i);
+			tempDataset.addValue(value, "Frequency", Integer.toString(i));
+			tableModel.setValueAt(value, 0, i-lower+1);
+		}
+		value = N - count - (upper - umid + 1);
+		tableModel.addColumn(umid);
+		tempDataset.addValue(value, "Frequency", Integer.toString(umid));
+		tableModel.setValueAt(value, 0, umid-lower+1);
+		count += value;
+		for(int i = umid+1; i <= upper;i++)
+		{
+			value = upper - i + 1;
+			tableModel.addColumn(i);
+			tempDataset.addValue(value, "Frequency", Integer.toString(i));
+			tableModel.setValueAt(value, 0, i-lower+1);
+			count+=value;
+		}
+		System.out.println(count);
 		dataset=tempDataset;
 	}
 	
