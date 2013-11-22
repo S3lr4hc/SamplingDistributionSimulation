@@ -1,5 +1,4 @@
 import javax.swing.table.DefaultTableModel;
-
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -16,6 +15,7 @@ public class SamplingComputation {
 	private CategoryDataset dataset;
 	private CategoryDataset sampleDataset;
 	private DefaultTableModel tableModel;
+	private int[][] samples;
 	
 	public SamplingComputation()
 	{
@@ -157,37 +157,47 @@ public class SamplingComputation {
 		}
 	}
 	
-	
 	public void generateSampleValues(int n){
-	System.out.println("XXXXXXX"); 
-	int nNum = 0;
-	 int j = 0;
-	 int i = 0;
-	 for( i = 0; i<values.length; i++)
-	 nNum += values[i]; 
-
-	 int sampleValues[] = new int[nNum];	
-	 
-	 i = 0;
-	 int s = 0;
-	 
-	 for( j =0; j<values.length; j++)
-	     for( i=0; i<values[j]; i++){
-	     sampleValues[s] = x[j];
-	     
-	     System.out.println("X: "+x[j]);
-	     System.out.println(sampleValues[s]);
-	     s++;
-	    
-	     }
-	
-	 /*for(i =0; i<sampleValues.length;i++)
-	     System.out.println(sampleValues[i]);*/
-	 
-	}
-	public int getCombination(int n){
+		int nNum = 0;
 		
+		for(int i=0; i<values.length; i++)
+			if(values[i] != 0)
+			nNum++;
+        
+		//System.out.println(nNum);	
+       
+        int pop[] = new int[nNum];
+        
+        int j=0;
+        
+        for(int i=0; i<x.length; i++)
+        	if(values[i]!=0){
+        	 pop[j]=x[i];
+        	 j++;
+        	}
+  
+        for(int i=0; i<pop.length;i++)
+    	System.out.println(pop[i]);
+       samples = new int[(int) Math.pow(n, nNum)][n];
+       int nTemp = 0;
+       j = 0;
+       for(int i=0; i<(int)Math.pow(n, nNum); i++){
+    	
+    	   samples[i][0]= pop[nTemp];
+    	   samples[i][1]= pop[j];
+    	   if(j==pop.length){
+    		  nTemp++;
+    		  j=0;
+    	   
+    	   }
+    	  if(nTemp == pop.length && j == pop.length)
+    		  break;
+       }
+        
+      /*for(int i=0; i<pop.length;i++)
+        	System.out.println(pop[i]);*/
+        
+        	
 	}
-	public void sampleMean(){}
 }
 
